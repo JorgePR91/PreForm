@@ -1,0 +1,42 @@
+# Dependències
+node_modules/
+
+# Sortides de build (electron-builder, etc.)
+dist/
+out/
+release/
+build/
+
+# Logs i depuració
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Entorn i secrets (no pujar mai)
+.env
+.env.*
+!.env.example
+
+# Sistema operatiu
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Editor / IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# Proves i cobertura
+coverage/
+.nyc_output/
+
+# Misc
+*.local
+.cache/
