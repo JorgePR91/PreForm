@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <!--
+    Content-Security-Policy: restricción de seguridad.
+    Indica de dónde puede cargar recursos la app.
+    default-src 'self' → solo carga archivos del propio proyecto.
+    Esto previene ataques XSS y carga de scripts maliciosos.
+  -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self' 'unsafe-inline';" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PreFormat</title>
+  <link rel="stylesheet" href="styles/main.css" />
+  <link rel="icon" href="assets/icons/logo_32.png" type="image/png">
+</head>
+<body>
+
+  <!-- ===================================================== -->
+  <!-- BARRA LATERAL DE NAVEGACIÓN                           -->
+  <!-- Cada botón corresponde a un módulo de la aplicación   -->
+  <!-- ===================================================== -->
+  <nav class="sidebar" id="sidebar">
+
+    <!-- Logo / Encabezado de la app -->
+    <div class="sidebar-header">
+      <div class="logo">
+        <img src="assets/icons/logo_48.png" alt="PreFormat Logo" class="logo-icon">
+        <span class="logo-text">PreFormat</span>
+      </div>
+      <p class="logo-sub">Respaldo antes del formateo · ayuda después</p>
+    </div>
+
+    <!-- Menú de módulos -->
+    <ul class="nav-menu">
+      <li>
+        <button class="nav-btn active" data-modulo="dashboard">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Inicio</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" data-modulo="recuperacion">
+          <span class="nav-icon">🔁</span>
+          <span class="nav-label">Recuperación</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" data-modulo="programas">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Programas</span>
+          <span class="nav-badge critico">Crítico</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" data-modulo="instaladores">
+          <span class="nav-icon">💾</span>
+          <span class="nav-label">Instaladores</span>
+          <span class="nav-badge critico">Crítico</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" data-modulo="limpieza">
+          <span class="nav-icon">🗑</span>
+          <span class="nav-label">Limpieza</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" data-modulo="archivos">
+          <span class="nav-icon">📁</span>
+          <span class="nav-label">Mis Archivos</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" data-modulo="partidas">
+          <span class="nav-icon">🎮</span>
+          <span class="nav-label">Partidas</span>
+          <span class="nav-badge critico">Crítico</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" data-modulo="certificados">
+          <span class="nav-icon">📜</span>
+          <span class="nav-label">Certificados</span>
+          <span class="nav-badge critico">Crítico</span>
+        </button>
+      </li>
+      <li>
+        <button class="nav-btn" data-modulo="contrasenas">
+          <span class="nav-icon">🔐</span>
+          <span class="nav-label">Contraseñas</span>
+        </button>
+      </li>
+    </ul>
+
+    <!-- Versión al fondo de la barra lateral -->
+    <div class="sidebar-footer">
+      <p>v1.0.0 — Solo para Windows</p>
+    </div>
+  </nav>
+
+  <!-- ===================================================== -->
+  <!-- ÁREA DE CONTENIDO PRINCIPAL                           -->
+  <!-- Aquí se muestra la vista del módulo activo            -->
+  <!-- ===================================================== -->
+  <main class="main-content" id="main-content">
+
+    <!-- VISTA: Dashboard / Inicio -->
+    <section class="vista" id="vista-dashboard">
+      <div class="vista-header">
+        <h1>Bienvenido a PreFormat</h1>
+        <p class="vista-sub">Herramienta en dos fases: respaldo antes del formateo y ayuda después, con el mismo USB o disco externo.</p>
+      </div>
+
+      <div class="aviso-seguridad" style="margin-bottom: 20px; max-width: 900px;">
+        <strong>Flujo recomendado:</strong>
+        <ol style="margin: 10px 0 0 18px; line-height: 1.6;">
+          <li><strong>Antes del formateo:</strong> exporta la lista de programas, copia instaladores, respalda archivos personales, partidas y exporta guías de contraseñas (navegadores/gestores) al USB.</li>
+          <li><strong>Formatea</strong> e instala Windows de nuevo.</li>
+          <li><strong>Después:</strong> conecta el USB, abre <strong>Recuperación</strong> para cotejar programas, y restaura carpetas y saves manualmente desde las copias.</li>
+        </ol>
+      </div>
+
+      <!-- Tarjetas de progreso de cada módulo -->
+      <div class="dashboard-grid">
+
+        <div class="card-modulo" data-target="recuperacion">
+          <div class="card-icono">🔁</div>
+          <h3>Recuperación</h3>
+          <p>Después del formateo: coteja programas con tu lista guardada.</p>
+        </div>
+
+        <div class="card-modulo" data-target="programas">
+          <div class="card-icono">📦</div>
+          <h3>Programas Instalados</h3>
+          <p>Exporta la lista de todo lo que tienes instalado.</p>
+
+        </div>
+
+        <div class="card-modulo" data-target="instaladores">
+          <div class="card-icono">💾</div>
+          <h3>Instaladores</h3>
+          <p>Localiza y copia los instaladores que necesitas.</p>
+
+        </div>
+
+        <div class="card-modulo" data-target="limpieza">
+          <div class="card-icono">🗑</div>
+          <h3>Limpieza</h3>
+          <p>Elimina archivos temporales y libera espacio.</p>
+
+        </div>
+
+        <div class="card-modulo" data-target="archivos">
+          <div class="card-icono">📁</div>
+          <h3>Mis Archivos</h3>
+          <p>Organiza y respalda tus documentos personales.</p>
+
+        </div>
+
+        <div class="card-modulo" data-target="partidas">
+          <div class="card-icono">🎮</div>
+          <h3>Partidas guardadas</h3>
+          <p>Detecta juegos y copia tus saves antes del formateo.</p>
+
+        </div>
+        
+        <div class="card-modulo" data-target="certificados">
+          <div class="card-icono">📜</div>
+          <h3>Certificados</h3>
+          <p>Extrae y respalda tus firmas digitales y certificados.</p>
+        </div>
+
+        <div class="card-modulo" data-target="contrasenas">
+          <div class="card-icono">🔐</div>
+          <h3>Contraseñas</h3>
+          <p>Exporta tus credenciales de forma segura.</p>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- VISTA: Recuperación (después del formateo) -->
+    <section class="vista oculto" id="vista-recuperacion">
+      <div class="vista-header">
+        <h1>🔁 Recuperación</h1>
+        <p class="vista-sub">Conecta tu USB o disco donde guardaste los respaldos. Coteja qué programas ya has vuelto a instalar respecto a la lista previa.</p>
+      </div>
+
+      <div class="aviso-seguridad" style="max-width: 900px;">
+        <strong>Qué puedes hacer aquí:</strong> importar el <code>JSON</code> de programas que exportaste antes del formateo y compararlo con lo instalado ahora.
+        <br /><br />
+        <strong>Otros datos</strong> (instaladores, documentos, partidas, export cifrado de contraseñas) no se “reconstruyen” solos: cópialos desde el USB a las carpetas habituales o sigue las guías del módulo Contraseñas. Esta pantalla se centra en el <strong>cotejo de programas</strong>.
+      </div>
+
+      <div class="barra-acciones" style="flex-wrap: wrap; gap: 10px;">
+        <button type="button" class="btn-secundario" id="btn-importar-json-ref">
+          📂 Importar lista JSON (referencia)
+        </button>
+        <button type="button" class="btn-primario" id="btn-comparar-programas" disabled>
+          ⚖ Cotejar con programas actuales
+        </button>
+      </div>
+      <p class="texto-dim" id="recuperacion-ruta-ref" style="margin: 8px 0;"></p>
+
+      <div class="estado-escaneo oculto" id="estado-recuperacion">
+        <div class="spinner"></div>
+        <span>Comparando listas...</span>
+      </div>
+
+      <div class="oculto" id="panel-resultado-recuperacion" style="margin-top: 16px;">
+        <div class="resumen-espacio" style="margin-bottom: 16px;">
+          <span class="resumen-label">Resumen:</span>
+          <span class="resumen-valor" id="recuperacion-resumen-texto"></span>
+        </div>
+
+        <div class="tabla-info">
+          <span class="texto-dim">Leyenda: <span class="chip usuario">Reinstalado</span> ya estaba en tu lista y aparece ahora.
+          <span class="chip sistema">Pendiente</span> estaba antes y aún no lo tienes.
+          <span class="chip" style="background:#2d3a55;">Nuevo</span> no estaba en la lista antigua.</span>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <h3 class="seccion-titulo" style="font-size: 1rem;">Pendientes de reinstalar</h3>
+          <div class="tabla-contenedor" style="max-height: 220px; overflow: auto;">
+            <table class="tabla-datos">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Editor</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-recuperacion-pendientes"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <h3 class="seccion-titulo" style="font-size: 1rem;">Reinstalados (coinciden con la lista antigua)</h3>
+          <div class="tabla-contenedor" style="max-height: 220px; overflow: auto;">
+            <table class="tabla-datos">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Versión actual</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-recuperacion-reinstalados"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div style="margin-top: 14px;">
+          <h3 class="seccion-titulo" style="font-size: 1rem;">Nuevos en este equipo (no estaban en la lista)</h3>
+          <div class="tabla-contenedor" style="max-height: 220px; overflow: auto;">
+            <table class="tabla-datos">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Versión</th>
+                </tr>
+              </thead>
+              <tbody id="tbody-recuperacion-nuevos"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA: Módulo 1 — Programas instalados -->
+    <section class="vista oculto" id="vista-programas">
+      <div class="vista-header">
+        <h1>📦 Programas Instalados</h1>
+        <p class="vista-sub">Escanea y exporta la lista de todo lo que está instalado en tu PC.</p>
+      </div>
+
+      <!-- Barra de acciones -->
+      <div class="barra-acciones">
+        <button class="btn-primario" id="btn-escanear-programas">
+          🔍 Escanear ahora
+        </button>
+        <div class="grupo-export oculto" id="grupo-export-programas">
+          <button class="btn-secundario" id="btn-export-json">Exportar JSON</button>
+          <button class="btn-secundario" id="btn-export-csv">Exportar CSV</button>
+          <button class="btn-secundario" id="btn-export-pdf">Exportar PDF</button>
+        </div>
+      </div>
+
+      <!-- Estado del escaneo -->
+      <div class="estado-escaneo oculto" id="estado-programas">
+        <div class="spinner"></div>
+        <p>Escaneando el registro de Windows...</p>
+      </div>
+
+      <!-- Tabla de resultados -->
+      <div class="tabla-contenedor oculto" id="tabla-programas">
+        <div class="tabla-info">
+          <span id="contador-programas">0 programas encontrados</span>
+          <input type="text" class="buscador" id="buscador-programas"
+                 placeholder="🔍 Filtrar por nombre..." />
+        </div>
+        <table class="tabla-datos">
+          <thead>
+            <tr>
+              <!-- data-col indica por qué campo ordenar al hacer clic -->
+              <th class="th-ordenable" data-col="nombre">Nombre <span class="orden-icono">↕</span></th>
+              <th class="th-ordenable" data-col="version">Versión <span class="orden-icono">↕</span></th>
+              <th class="th-ordenable" data-col="editor">Editor <span class="orden-icono">↕</span></th>
+              <th class="th-ordenable" data-col="fechaInstalacion">Fecha instalación <span class="orden-icono">↕</span></th>
+              <th class="th-ordenable" data-col="tipo">Tipo <span class="orden-icono">↕</span></th>
+              <th>Desinstalador</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-programas">
+            <!-- Las filas se insertan dinámicamente desde renderer.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- VISTA: Módulo 2 — Buscador de instaladores -->
+    <section class="vista oculto" id="vista-instaladores">
+      <div class="vista-header">
+        <h1>💾 Buscador de Instaladores</h1>
+        <p class="vista-sub">Localiza archivos .exe, .msi y .msix en tu PC o en una unidad de red.</p>
+      </div>
+
+      <!-- Panel de selección de ruta a escanear -->
+      <div class="panel-ruta">
+        <div class="ruta-controles">
+          <input
+            type="text"
+            id="input-ruta-escaneo"
+            class="input-ruta"
+            placeholder="Ruta a escanear, ej: C:\ o \\servidor\carpeta"
+            value="C:\"
+          />
+          <button class="btn-secundario" id="btn-explorar-ruta">
+            📂 Explorar
+          </button>
+          <button class="btn-primario" id="btn-escanear-instaladores">
+            🔍 Escanear
+          </button>
+        </div>
+        <p class="ruta-ayuda">
+          Para escanear una unidad de red, escribe la ruta UNC directamente: <code>\\servidor\carpeta</code>
+        </p>
+      </div>
+
+      <!-- Indicador de progreso del escaneo -->
+      <div class="estado-escaneo oculto" id="estado-instaladores">
+        <div class="spinner"></div>
+        <div class="progreso-texto">
+          <span id="progreso-carpeta">Iniciando escaneo...</span>
+          <span id="progreso-encontrados" class="progreso-contador">0 encontrados</span>
+        </div>
+      </div>
+
+      <!-- Barra de acciones (aparece tras el escaneo) -->
+      <div class="barra-acciones oculto" id="acciones-instaladores">
+        <div class="seleccion-info">
+          <span id="contador-instaladores">0 archivos encontrados</span>
+          <span class="separador">·</span>
+          <span id="contador-seleccionados">0 seleccionados</span>
+          <span class="separador">·</span>
+          <span id="tamano-seleccionados">0 MB</span>
+        </div>
+        <div class="grupo-botones-derecha">
+          <button class="btn-secundario btn-sm" id="btn-seleccionar-todos">
+            Seleccionar todo
+          </button>
+          <button class="btn-secundario btn-sm" id="btn-deseleccionar-todos">
+            Quitar selección
+          </button>
+          <button class="btn-primario" id="btn-copiar-seleccion" disabled>
+            📋 Copiar selección
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de progreso de copia -->
+      <div class="barra-copia oculto" id="barra-copia">
+        <div class="copia-info">
+          <span id="copia-archivo-actual">Copiando...</span>
+          <span id="copia-contador">0 / 0</span>
+        </div>
+        <div class="progreso-barra-contenedor">
+          <div class="progreso-barra-relleno" id="progreso-barra-relleno"></div>
+        </div>
+      </div>
+
+      <!-- Tabla de resultados -->
+      <div class="tabla-contenedor oculto" id="tabla-instaladores">
+        <div class="tabla-info">
+          <input
+            type="text"
+            class="buscador"
+            id="buscador-instaladores"
+            placeholder="🔍 Filtrar por nombre..."
+          />
+        </div>
+        <table class="tabla-datos">
+          <thead>
+            <tr>
+              <!-- Checkbox para seleccionar/deseleccionar todos -->
+              <th style="width:40px; text-align:center">
+                <input type="checkbox" id="check-todos-instaladores" title="Seleccionar/deseleccionar todo" />
+              </th>
+              <th class="th-ordenable" data-col-inst="nombre">Nombre <span class="orden-icono">↕</span></th>
+              <th class="th-ordenable" data-col-inst="carpeta">Ubicación <span class="orden-icono">↕</span></th>
+              <th class="th-ordenable" data-col-inst="tamano">Tamaño <span class="orden-icono">↕</span></th>
+              <th class="th-ordenable" data-col-inst="extension">Tipo <span class="orden-icono">↕</span></th>
+              <th class="th-ordenable" data-col-inst="fechaModificacion">Modificado <span class="orden-icono">↕</span></th>
+              <th style="width:90px">Hash SHA-256</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-instaladores">
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- VISTA: Módulo 3 — Limpieza de basura -->
+    <section class="vista oculto" id="vista-limpieza">
+      <div class="vista-header">
+        <h1>🗑 Limpieza de Basura</h1>
+        <p class="vista-sub">Detecta archivos temporales, cachés y logs. Nada se borra sin tu confirmación.</p>
+      </div>
+
+      <!-- Botón principal de análisis -->
+      <div class="barra-acciones">
+        <button class="btn-primario" id="btn-analizar-basura">
+          🔍 Analizar sistema
+        </button>
+        <!-- Resumen de espacio total recuperable (aparece tras el análisis) -->
+        <div class="resumen-espacio oculto" id="resumen-espacio">
+          <span class="resumen-label">Espacio recuperable:</span>
+          <span class="resumen-valor" id="espacio-total-recuperable">0 MB</span>
+        </div>
+      </div>
+
+      <!-- Indicador de progreso del análisis -->
+      <div class="estado-escaneo oculto" id="estado-basura">
+        <div class="spinner"></div>
+        <div class="progreso-texto">
+          <span>Analizando...</span>
+          <span id="progreso-categoria-basura" class="progreso-contador"></span>
+        </div>
+      </div>
+
+      <!-- Indicador de progreso de eliminación -->
+      <div class="barra-copia oculto" id="barra-eliminacion">
+        <div class="copia-info">
+          <span id="eliminacion-archivo-actual">Moviendo a papelera...</span>
+          <span id="eliminacion-contador">0 / 0</span>
+        </div>
+        <div class="progreso-barra-contenedor">
+          <div class="progreso-barra-relleno" id="progreso-eliminacion-relleno"></div>
+        </div>
+      </div>
+
+      <!-- Aviso de seguridad (siempre visible cuando hay resultados) -->
+      <div class="aviso-seguridad oculto" id="aviso-basura">
+        🛡️ Los archivos marcados se moverán a la <strong>Papelera de Reciclaje</strong>,
+        no se borrarán permanentemente. Puedes recuperarlos desde ahí si cometes un error.
+      </div>
+
+      <!-- Lista de categorías con sus archivos -->
+      <div class="categorias-limpieza oculto" id="categorias-limpieza">
+        <!-- Las tarjetas de categoría se generan dinámicamente en renderer.js -->
+      </div>
+
+      <!-- Botón de confirmación final (aparece al pie cuando hay selección) -->
+      <div class="pie-limpieza oculto" id="pie-limpieza">
+        <span id="resumen-seleccion-basura">0 archivos seleccionados · 0 MB</span>
+        <button class="btn-peligro" id="btn-eliminar-seleccion" disabled>
+          🗑 Mover a papelera
+        </button>
+      </div>
+
+    </section>
+
+    <!-- VISTA: Módulo 4 — Reorganizador de archivos personales -->
+    <section class="vista oculto" id="vista-archivos">
+      <div class="vista-header">
+        <h1>📁 Mis Archivos</h1>
+        <p class="vista-sub">Escanea tus carpetas personales y respalda lo que necesites antes del formateo.</p>
+      </div>
+
+      <!-- Barra de acciones principal -->
+      <div class="barra-acciones">
+        <button class="btn-primario" id="btn-escanear-personales">
+          🔍 Escanear mis carpetas
+        </button>
+        <!-- Resumen global (aparece tras el escaneo) -->
+        <div class="resumen-espacio oculto" id="resumen-personales">
+          <span class="resumen-label">Total encontrado:</span>
+          <span class="resumen-valor" id="total-archivos-personales">0 archivos</span>
+        </div>
+      </div>
+
+      <!-- Indicador de progreso del escaneo -->
+      <div class="estado-escaneo oculto" id="estado-personales">
+        <div class="spinner"></div>
+        <div class="progreso-texto">
+          <span>Leyendo carpetas...</span>
+          <span id="progreso-carpeta-personal" class="progreso-contador"></span>
+        </div>
+      </div>
+
+      <!-- Opciones de transferencia (aparecen tras el escaneo) -->
+      <div class="panel-opciones-transferencia oculto" id="panel-opciones">
+
+        <!-- Selector de modo: copiar o mover -->
+        <div class="opcion-grupo">
+          <span class="opcion-label">Modo:</span>
+          <label class="opcion-radio">
+            <input type="radio" name="modo-transferencia" value="copiar" checked />
+            <span>
+              <strong>Copiar</strong> — El original queda en su sitio
+              <em class="opcion-recomendado">(recomendado)</em>
+            </span>
+          </label>
+          <label class="opcion-radio opcion-peligro">
+            <input type="radio" name="modo-transferencia" value="mover" />
+            <span>
+              <strong>Mover</strong> — El original desaparece de su ubicación actual
+            </span>
+          </label>
+        </div>
+
+        <!-- Opción de organizar por tipo -->
+        <div class="opcion-grupo">
+          <label class="opcion-check-label">
+            <input type="checkbox" id="check-organizar-tipo" checked />
+            <span>
+              <strong>Organizar por tipo</strong> —
+              Crear subcarpetas automáticas (Imágenes/, Vídeos/, Documentos/, etc.)
+            </span>
+          </label>
+        </div>
+
+        <!-- Botón de transferencia (activo solo si hay selección) -->
+        <div class="opciones-pie">
+          <span id="resumen-seleccion-personales" class="texto-dim">
+            Selecciona carpetas o archivos para continuar
+          </span>
+          <button class="btn-primario" id="btn-transferir-seleccion" disabled>
+            📋 Respaldar selección
+          </button>
+        </div>
+      </div>
+
+      <!-- Barra de progreso de transferencia -->
+      <div class="barra-copia oculto" id="barra-transferencia">
+        <div class="copia-info">
+          <span id="transferencia-archivo-actual">Transfiriendo...</span>
+          <span id="transferencia-contador">0 / 0</span>
+        </div>
+        <div class="progreso-barra-contenedor">
+          <div class="progreso-barra-relleno" id="progreso-transferencia-relleno"></div>
+        </div>
+      </div>
+
+      <!-- Tarjetas de carpetas personales -->
+      <div class="carpetas-personales oculto" id="carpetas-personales">
+        <!-- Se generan dinámicamente en renderer.js -->
+      </div>
+
+    </section>
+
+    <!-- VISTA: Módulo 6 — Partidas guardadas (juegos) -->
+    <section class="vista oculto" id="vista-partidas">
+      <div class="vista-header">
+        <h1>🎮 Partidas guardadas</h1>
+        <p class="vista-sub">Detecta juegos instalados y rutas típicas de guardado. Copia solo lo que elijas a un disco externo o carpeta segura.</p>
+      </div>
+
+      <div class="aviso-seguridad" id="aviso-partidas">
+        La detección combina Steam, registro, carpetas habituales y (si hay conexión) la base pública Ludusavi.
+        Si la descarga falla, sigues teniendo Steam y búsqueda manual. Los juegos solo en la nube no tienen carpeta local aquí.
+      </div>
+
+      <div class="panel-ruta" id="panel-manual-partidas" style="margin-bottom: 16px;">
+        <p class="ruta-ayuda">¿Falta un guardado? Añade la carpeta manualmente (explorador o pega la ruta).</p>
+        <div class="ruta-controles" style="flex-wrap: wrap; gap: 8px;">
+          <input type="text" id="input-manual-partida-ruta" class="input-ruta" style="min-width: 220px; flex: 1;"
+                 placeholder="Ruta de la carpeta de guardado" />
+          <input type="text" id="input-manual-partida-etiqueta" class="input-ruta" style="min-width: 160px;"
+                 placeholder="Nombre para la lista" />
+          <button type="button" class="btn-secundario" id="btn-explorar-manual-partida">📂 Explorar</button>
+          <button type="button" class="btn-primario" id="btn-anadir-manual-partida">➕ Añadir</button>
+        </div>
+      </div>
+
+      <div class="barra-acciones">
+        <button class="btn-primario" id="btn-detectar-partidas">
+          🔍 Detectar juegos y saves
+        </button>
+        <button class="btn-secundario" id="btn-respaldar-partidas" disabled>
+          📋 Respaldar selección
+        </button>
+      </div>
+
+      <div class="estado-escaneo oculto" id="estado-partidas">
+        <div class="spinner"></div>
+        <div class="progreso-texto">
+          <span id="progreso-texto-partidas">Analizando...</span>
+        </div>
+      </div>
+
+      <div class="barra-copia oculto" id="barra-respaldo-partidas">
+        <div class="copia-info">
+          <span id="respaldo-partida-actual">Copiando...</span>
+          <span id="respaldo-partida-contador">0 / 0</span>
+        </div>
+        <div class="progreso-barra-contenedor">
+          <div class="progreso-barra-relleno" id="progreso-respaldo-partidas-relleno"></div>
+        </div>
+      </div>
+
+      <p class="texto-dim oculto" id="meta-partidas"></p>
+
+      <div class="categorias-limpieza oculto" id="lista-juegos-partidas">
+        <!-- Tarjetas generadas en renderer.js -->
+      </div>
+    </section>
+
+    <!-- VISTA: Módulo 7 — Certificados Digitales -->
+    <section class="vista oculto" id="vista-certificados">
+      <div class="vista-header">
+        <h1>📜 Certificados Digitales</h1>
+        <p class="vista-sub">Detecta tus certificados instalados (FNMT, Firma Digital) y expórtalos con seguridad.</p>
+      </div>
+
+      <div class="aviso-seguridad" id="aviso-certificados">
+        🛡️ Los certificados que contienen una "Clave Privada" se exportarán como archivos <code>.pfx</code>.
+        Windows exige que elijas una <strong>contraseña</strong> para protegerlos y así evitar que cualquiera pueda suplantar tu identidad digital.
+      </div>
+
+      <div class="barra-acciones">
+        <button class="btn-primario" id="btn-escanear-certificados">
+          🔍 Escanear mis certificados
+        </button>
+      </div>
+
+      <div class="estado-escaneo oculto" id="estado-certificados">
+        <div class="spinner"></div>
+        <span>Leyendo almacén de certificados de Windows...</span>
+      </div>
+      
+      <!-- Barra de progreso de exportación -->
+      <div class="barra-copia oculto" id="barra-export-certificados">
+        <div class="copia-info">
+          <span id="export-cert-actual">Exportando...</span>
+          <span id="export-cert-contador">0 / 0</span>
+        </div>
+        <div class="progreso-barra-contenedor">
+          <div class="progreso-barra-relleno" id="progreso-export-cert-relleno"></div>
+        </div>
+      </div>
+
+      <div class="tabla-contenedor oculto" id="tabla-certificados" style="margin-top:20px;">
+        <table class="tabla-datos">
+          <thead>
+            <tr>
+              <th style="width:40px; text-align:center"><input type="checkbox" id="check-todos-certificados" title="Seleccionar todo" /></th>
+              <th>Sujeto / Titular</th>
+              <th>Emisor</th>
+              <th>Expira</th>
+              <th style="text-align:center">Clave Privada</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-certificados"></tbody>
+        </table>
+        <div class="opciones-pie" style="margin-top:16px;">
+          <span id="resumen-seleccion-certificados" class="texto-dim">0 certificados seleccionados</span>
+          <button class="btn-primario" id="btn-exportar-certificados" disabled>
+            📋 Exportar selección al USB
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- VISTA: Módulo 5 — Contraseñas y credenciales -->
+    <section class="vista oculto" id="vista-contrasenas">
+      <div class="vista-header">
+        <h1>🔐 Contraseñas y Credenciales</h1>
+        <p class="vista-sub">Detecta tus gestores y navegadores, sigue la guía de exportación y cifra el resultado.</p>
+      </div>
+
+      <!-- Aviso de seguridad prominente — siempre visible -->
+      <div class="aviso-seguridad aviso-critico" id="aviso-contrasenas">
+        🛡️ <strong>PreFormat no accede a tus contraseñas.</strong>
+        Este módulo solo detecta qué aplicaciones tienes instaladas
+        y te guía para que <em>tú mismo</em> exportes tus datos manualmente.
+        Ninguna contraseña se lee, transmite ni almacena por esta aplicación.
+      </div>
+
+      <!-- Botón de detección -->
+      <div class="barra-acciones">
+        <button class="btn-primario" id="btn-detectar-todo">
+          🔍 Detectar mis gestores y navegadores
+        </button>
+      </div>
+
+      <!-- Estado de detección -->
+      <div class="estado-escaneo oculto" id="estado-contrasenas">
+        <div class="spinner"></div>
+        <span>Buscando aplicaciones instaladas...</span>
+      </div>
+
+      <!-- Resultados: gestores y navegadores (aparecen tras la detección) -->
+      <div class="oculto" id="resultados-contrasenas">
+
+        <!-- SECCIÓN 1: Gestores de contraseñas -->
+        <div class="seccion-credenciales">
+          <h2 class="seccion-titulo">📦 Gestores de contraseñas</h2>
+          <div id="lista-gestores">
+            <!-- Se genera dinámicamente en renderer.js -->
+          </div>
+        </div>
+
+        <!-- SECCIÓN 2: Navegadores -->
+        <div class="seccion-credenciales">
+          <h2 class="seccion-titulo">🌐 Navegadores con contraseñas guardadas</h2>
+          <div id="lista-navegadores">
+            <!-- Se genera dinámicamente en renderer.js -->
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SECCIÓN 3: Herramienta de cifrado (siempre visible) -->
+      <div class="seccion-credenciales seccion-cifrado">
+        <h2 class="seccion-titulo">🔒 Cifrar archivo exportado con AES-256</h2>
+        <p class="seccion-descripcion">
+          Una vez hayas exportado tus contraseñas desde cualquier aplicación,
+          usa esta herramienta para cifrarlas con una contraseña fuerte antes
+          de guardar el archivo en un USB o en la nube.
+          <strong>Sin la contraseña elegida, el archivo será irrecuperable.</strong>
+        </p>
+
+        <div class="cifrado-formulario">
+
+          <!-- Paso 1: Seleccionar archivo a cifrar -->
+          <div class="cifrado-paso">
+            <span class="cifrado-paso-num">1</span>
+            <div class="cifrado-paso-contenido">
+              <label class="cifrado-label">Archivo a cifrar</label>
+              <div class="cifrado-input-grupo">
+                <input type="text" id="input-archivo-cifrar" class="input-ruta"
+                       placeholder="Selecciona el archivo exportado..." readonly />
+                <button class="btn-secundario" id="btn-seleccionar-archivo-cifrar">
+                  📂 Seleccionar
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Paso 2: Introducir contraseña de cifrado -->
+          <div class="cifrado-paso">
+            <span class="cifrado-paso-num">2</span>
+            <div class="cifrado-paso-contenido">
+              <label class="cifrado-label" for="input-contrasena-cifrado">
+                Contraseña de cifrado
+              </label>
+              <input
+                type="password"
+                id="input-contrasena-cifrado"
+                class="input-ruta"
+                placeholder="Mínimo 12 caracteres recomendados"
+                autocomplete="new-password"
+              />
+              <!-- Indicador visual de fortaleza de la contraseña -->
+              <div class="fortaleza-contenedor">
+                <div class="fortaleza-barra" id="fortaleza-barra"></div>
+                <span class="fortaleza-texto" id="fortaleza-texto"></span>
+              </div>
+              <p class="cifrado-ayuda">
+                ⚠️ Apunta esta contraseña en un lugar seguro. Sin ella
+                el archivo cifrado será <strong>irrecuperable</strong>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Paso 3: Confirmar contraseña -->
+          <div class="cifrado-paso">
+            <span class="cifrado-paso-num">3</span>
+            <div class="cifrado-paso-contenido">
+              <label class="cifrado-label" for="input-contrasena-confirmar">
+                Confirmar contraseña
+              </label>
+              <input
+                type="password"
+                id="input-contrasena-confirmar"
+                class="input-ruta"
+                placeholder="Repite la contraseña"
+                autocomplete="new-password"
+              />
+              <p class="cifrado-error oculto" id="error-contrasena-mismatch">
+                ❌ Las contraseñas no coinciden
+              </p>
+            </div>
+          </div>
+
+          <!-- Botón de cifrado -->
+          <button class="btn-primario btn-cifrar" id="btn-cifrar-archivo" disabled>
+            🔒 Cifrar con AES-256
+          </button>
+
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Modal de confirmación (para operaciones destructivas) -->
+  <div class="modal-overlay oculto" id="modal-confirmacion">
+    <div class="modal">
+      <h2 id="modal-titulo">¿Estás seguro?</h2>
+      <p id="modal-mensaje">Esta acción no se puede deshacer.</p>
+      <div class="modal-botones">
+        <button class="btn-peligro" id="modal-confirmar">Confirmar</button>
+        <button class="btn-secundario" id="modal-cancelar">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal exclusivo para capturar la contraseña del archivo .PFX -->
+  <div class="modal-overlay oculto" id="modal-password-certificado">
+    <div class="modal">
+      <h2>🔒 Proteger Certificado</h2>
+      <p>Windows requiere establecer una contraseña para exportar la Clave Privada (.pfx). La necesitarás para volver a instalarlo.</p>
+      <input type="password" id="input-pass-cert" class="input-ruta" placeholder="Nueva contraseña de respaldo..." autocomplete="new-password" />
+      <input type="password" id="input-pass-cert-conf" class="input-ruta" style="margin-top:8px" placeholder="Confirma la contraseña..." autocomplete="new-password" />
+      <p id="error-pass-cert" class="cifrado-error oculto">Las contraseñas no coinciden o están vacías.</p>
+      <div class="modal-botones" style="margin-top:16px">
+        <button class="btn-primario" id="btn-confirmar-pass-cert">Exportar ahora</button>
+        <button class="btn-secundario" id="btn-cancelar-pass-cert">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cargamos el script de la UI al final del body -->
+  <script src="js/renderer.js"></script>
+</body>
+</html>

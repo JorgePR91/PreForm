@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "entradas": [
+    {
+      "coincidencias": ["elden ring"],
+      "rutas": [
+        { "etiqueta": "EldenRing (AppData)", "plantilla": "%APPDATA%/EldenRing" }
+      ]
+    },
+    {
+      "coincidencias": ["the witcher 3", "witcher 3"],
+      "rutas": [
+        { "etiqueta": "Documentos", "plantilla": "%DOCUMENTS%/The Witcher 3" }
+      ]
+    },
+    {
+      "coincidencias": ["cyberpunk 2077"],
+      "rutas": [
+        { "etiqueta": "Guardado local", "plantilla": "%LOCALAPPDATA%/CD Projekt Red/Cyberpunk 2077" }
+      ]
+    },
+    {
+      "coincidencias": ["stardew valley"],
+      "rutas": [
+        { "etiqueta": "StardewValley", "plantilla": "%APPDATA%/StardewValley" }
+      ]
+    },
+    {
+      "coincidencias": ["minecraft"],
+      "rutas": [
+        { "etiqueta": "Minecraft (.minecraft)", "plantilla": "%APPDATA%/.minecraft/saves" }
+      ]
+    }
+  ]
+}
