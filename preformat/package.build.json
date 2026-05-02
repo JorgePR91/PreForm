@@ -1,0 +1,56 @@
+{
+  "name": "preformat-scaffolding",
+  "version": "1.0.0",
+  "description": "Herramienta de limpieza y optimización de Windows",
+  "main": "main.js",
+  "author": "Tu Nombre",
+  "license": "MIT",
+  
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win --publish never",
+    "release": "electron-builder --win --publish always"
+  },
+
+  "build": {
+    "appId": "com.preformat.scaffolding",
+    "files": [
+      "main.js",
+      "preload.js",
+      "src/**/*",
+      "node_modules/**/*",
+      "!**/*.map",
+      "!**/tests/**"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "certificateFile": null,  
+      "certificatePassword": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Preformat Scaffolding"
+    },
+    "portable": {
+      "artifactName": "${productName}-${version}.exe"
+    }
+  },
+
+  "devDependencies": {
+    "electron": "^latest",
+    "electron-builder": "^latest"
+  }
+}
