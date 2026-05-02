@@ -257,7 +257,7 @@ h1, h2, h3, .vista-header h1, .seccion-titulo, .modal h2 {
   border-bottom: 2px solid var(--borde-black);
   box-shadow: inset -1px -1px var(--borde-dark);
   border-radius: var(--radio-lg);
-  padding: 24px 20px;
+  padding: 10px 10px;
   cursor: pointer;
   transition: all var(--transicion);
 }
