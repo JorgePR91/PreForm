@@ -90,6 +90,19 @@ async function build() {
       process.exit(1);
     }
 
+    console.log("🎨 Aplicando icono al ejecutable...");
+    const { default: rcedit } = await import("rcedit");
+    await rcedit(exePath, {
+      icon: path.join(
+        projectRoot,
+        "renderer",
+        "assets",
+        "icons",
+        "icon.ico",
+      ),
+    });
+    console.log("✅ Icono aplicado");
+
     console.log("\n✨ Build completado exitosamente!");
     console.log(`📦 Ubicación: ${distDir}/`);
     console.log(`   - Ejecutable: PreFormat-1.0.0/PreFormat.exe`);
