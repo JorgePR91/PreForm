@@ -15,8 +15,7 @@
     "asar": false,
     "win": {
       "target": "portable",
-      "icon": "assets/icons/icon.ico",
-      "sign": null
+      "icon": "renderer/assets/icons/icon.ico"
     },
     "portable": {
       "artifactName": "${productName}-${version}.exe"
@@ -33,7 +32,7 @@
     "winreg": "^1.2.4"
   },
   "devDependencies": {
-    "electron": "^28.3.3",
+    "electron": "28.3.3",
     "electron-builder": "^24.13.3",
     "rcedit": "^2.3.0"
   },
