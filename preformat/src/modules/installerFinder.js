@@ -133,14 +133,13 @@ async function recorrer(dirRaiz, nivelInicial, encontrados, onProgreso) {
 // =============================================================
 async function copiar(archivos, destino, onProgreso) {
   const resultado = { copiados: 0, errores: [] };
+  let destinoReal = destino;
 
-  // SEGURIDAD: Validar destino y detectar si es symlink
+  // SEGURIDAD: Resolver la ruta real del destino.
+  // Esto permite destinos legítimos que en Windows son junctions o carpetas redirigidas.
   try {
     await fs.mkdir(destino, { recursive: true });
-    const esSymlinkDest = await detectarSymlink(destino);
-    if (esSymlinkDest) {
-      throw new Error('La carpeta de destino es un enlace simbólico — rechazado por seguridad');
-    }
+    destinoReal = await fs.realpath(destino);
   } catch (error) {
     return {
       copiados: 0,
@@ -150,7 +149,7 @@ async function copiar(archivos, destino, onProgreso) {
 
   for (let i = 0; i < archivos.length; i++) {
     const archivo = archivos[i];
-    const rutaDestino = path.join(destino, archivo.nombre);
+    const rutaDestino = path.join(destinoReal, archivo.nombre);
 
     if (onProgreso) {
       onProgreso(i + 1, archivos.length, archivo.nombre);

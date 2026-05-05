@@ -37,8 +37,12 @@ function validarRutaSegura(ruta, rutaBase, nombreParam = 'ruta') {
   const rutaResuelta = path.resolve(ruta);
   const rutaBaseResuelta = path.resolve(rutaBase);
 
-  // Verificar que la ruta resuelta comienza con la ruta base
-  if (!rutaResuelta.startsWith(rutaBaseResuelta)) {
+  // Verificar que la ruta resuelta queda dentro de la base usando path.relative.
+  // Evita falsos positivos con prefijos parecidos, por ejemplo C:\Users\Ana y C:\Users\Ana2.
+  const relativa = path.relative(rutaBaseResuelta, rutaResuelta);
+  const dentroDeBase = relativa === '' || (!relativa.startsWith('..') && !path.isAbsolute(relativa));
+
+  if (!dentroDeBase) {
     throw new Error(
       `${nombreParam} está fuera de los límites permitidos. ` +
       `Base: ${rutaBaseResuelta}, solicitado: ${rutaResuelta}`

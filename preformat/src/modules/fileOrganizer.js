@@ -143,16 +143,13 @@ async function escanear(onProgreso) {
  */
 async function transferir(archivos, destino, modo, organizarPorTipo, onProgreso) {
   const resultado = { transferidos: 0, errores: [] };
+  let destinoReal = destino;
 
-  // SEGURIDAD: Validar que la ruta de destino es segura
+  // SEGURIDAD: Resolver la ruta real del destino.
+  // En Windows, carpetas como Descargas pueden ser junctions/redirecciones válidas.
   try {
     await fs.mkdir(destino, { recursive: true });
-    
-    // Detectar si destino es un symlink (operación peligrosa)
-    const esSymlink = await detectarSymlink(destino);
-    if (esSymlink) {
-      throw new Error('La carpeta de destino es un enlace simbólico. Se rechaza la operación por seguridad.');
-    }
+    destinoReal = await fs.realpath(destino);
   } catch (error) {
     return {
       transferidos: 0,
@@ -183,10 +180,10 @@ async function transferir(archivos, destino, modo, organizarPorTipo, onProgreso)
       //   destino/Documentos/informe.pdf
       // Si no, todos van directamente al destino:
       //   destino/foto.jpg
-      let carpetaDestino = destino;
+      let carpetaDestino = destinoReal;
       if (organizarPorTipo) {
         const tipo = obtenerTipoArchivo(archivo.nombre);
-        carpetaDestino = path.join(destino, tipo.nombre);
+        carpetaDestino = path.join(destinoReal, tipo.nombre);
       }
 
       // Creamos la carpeta de destino si no existe (recursive: true
