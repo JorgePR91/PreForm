@@ -1,6 +1,6 @@
 {
   "name": "preformat",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Herramienta para preparar tu PC antes de formatear",
   "main": "main.js",
   "scripts": {
