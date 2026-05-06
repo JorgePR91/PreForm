@@ -452,9 +452,9 @@ let ordenInstaladores = { col: 'nombre', dir: 'asc' };
 const btnExplorarRuta = document.getElementById('btn-explorar-ruta');
 if (btnExplorarRuta) {
   btnExplorarRuta.addEventListener('click', async () => {
-    const carpeta = await window.electronAPI.seleccionarCarpeta();
-    if (carpeta) {
-      document.getElementById('input-ruta-escaneo').value = carpeta;
+    const respuesta = await window.electronAPI.seleccionarCarpeta();
+    if (respuesta && respuesta.exito) {
+      document.getElementById('input-ruta-escaneo').value = respuesta.ruta;
     }
   });
 }
@@ -586,8 +586,9 @@ document.getElementById('btn-copiar-seleccion')?.addEventListener('click', async
   if (!confirmo) return;
 
   // Seleccionamos la carpeta de destino
-  const destino = await window.electronAPI.seleccionarCarpeta();
-  if (!destino) return;
+  const respuestaDestino = await window.electronAPI.seleccionarCarpeta();
+  if (!respuestaDestino || !respuestaDestino.exito) return;
+  const destino = respuestaDestino.ruta;
 
   // Mostramos la barra de progreso de copia
   const barraCopia = document.getElementById('barra-copia');
@@ -1177,8 +1178,9 @@ if (btnTransferir) {
     if (!confirmo) return;
 
     // Seleccionamos la carpeta de destino con el diálogo nativo de Windows
-    const destino = await window.electronAPI.seleccionarCarpeta();
-    if (!destino) return;
+    const respuestaDestino = await window.electronAPI.seleccionarCarpeta();
+    if (!respuestaDestino || !respuestaDestino.exito) return;
+    const destino = respuestaDestino.ruta;
 
     // ── PROCESO DE TRANSFERENCIA ─────────────────────────────
     const barraTransferencia = document.getElementById('barra-transferencia');
@@ -1427,10 +1429,10 @@ const btnDetectarPartidas = document.getElementById('btn-detectar-partidas');
 const btnRespaldarPartidas = document.getElementById('btn-respaldar-partidas');
 
 document.getElementById('btn-explorar-manual-partida')?.addEventListener('click', async () => {
-  const carpeta = await window.electronAPI.seleccionarCarpeta();
-  if (carpeta) {
+  const respuesta = await window.electronAPI.seleccionarCarpeta();
+  if (respuesta && respuesta.exito) {
     const input = document.getElementById('input-manual-partida-ruta');
-    if (input) input.value = carpeta;
+    if (input) input.value = respuesta.ruta;
   }
 });
 
@@ -1553,8 +1555,9 @@ if (btnRespaldarPartidas) {
     );
     if (!confirmo) return;
 
-    const destino = await window.electronAPI.seleccionarCarpeta();
-    if (!destino) return;
+    const respuestaDestino = await window.electronAPI.seleccionarCarpeta();
+    if (!respuestaDestino || !respuestaDestino.exito) return;
+    const destino = respuestaDestino.ruta;
 
     window.electronAPI.quitarListenersPartidas();
     window.electronAPI.onProgresoRespaldoPartidas(({ actual, total, nombre }) => {
@@ -1833,8 +1836,9 @@ document.getElementById('btn-exportar-certificados')?.addEventListener('click', 
     if (!confirmo) return;
   }
 
-  const destino = await window.electronAPI.seleccionarCarpeta();
-  if (!destino) return;
+  const respuestaDestino = await window.electronAPI.seleccionarCarpeta();
+  if (!respuestaDestino || !respuestaDestino.exito) return;
+  const destino = respuestaDestino.ruta;
 
   const btn = document.getElementById('btn-exportar-certificados');
   const barraProgreso = document.getElementById('barra-export-certificados');
